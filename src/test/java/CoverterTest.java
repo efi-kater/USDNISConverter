@@ -4,6 +4,9 @@ import CoinPackage.CoinsTypes;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.util.Scanner;
+
 public class CoverterTest {
     @Test
     public void TestNISCalculate() throws Exception {
@@ -52,6 +55,26 @@ public class CoverterTest {
         double result =coin.getValue();
         //assert
         Assert.assertEquals(result,3.52);
+
+    }
+
+    @Test
+    public void TestFileAfterWrite() throws Exception {
+        //setup
+        CoinFactory c = new CoinFactory();
+        Coin coin =c.getCoinType(String.valueOf(CoinsTypes.USD));
+        String fileName = "test.txt";
+        double result =coin.calculate(10.0);
+        //Act
+        Main.writeToFile(fileName,String.valueOf(result));
+        File myObj = new File(fileName);
+        Scanner myReader = new Scanner(myObj);
+        //assert
+        while (myReader.hasNextLine()) {
+            String data = myReader.nextLine();
+            Assert.assertEquals(data,"35.2");
+        }
+
 
     }
 }

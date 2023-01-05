@@ -11,6 +11,9 @@ public class CoinFactory {
         if (coinType.equalsIgnoreCase(String.valueOf(CoinsTypes.USD))){
             return new USD();
         }
+        if (coinType.equalsIgnoreCase(String.valueOf(CoinsTypes.EUR))){
+            return new EUR();
+        }
         return null;
     }
 }

@@ -2,5 +2,6 @@ package CoinPackage;
 
 public enum CoinsTypes {
     USD,
-    NIS
+    NIS,
+    EUR
 }

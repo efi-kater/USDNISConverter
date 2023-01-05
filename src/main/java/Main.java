@@ -67,6 +67,7 @@ public class Main {
         System.out.println("Please choose an option(1/2)");
         System.out.println("1. Dollars to Shekels");
         System.out.println("2. Shekels to Dollars");
+        System.out.println("3. Euros to Shekels");
         Scanner scanner = new Scanner(System.in);
         int userSelection = scanner.nextInt();
         return userSelection;
@@ -86,6 +87,9 @@ public class Main {
             return a;
         } else if (userSelection==2) {
             a = coinFactory.getCoinType(String.valueOf(CoinsTypes.NIS));
+            return a;
+        } else if (userSelection==3) {
+            a = coinFactory.getCoinType(String.valueOf(CoinsTypes.EUR));
             return a;
         }else {
             System.out.println("Invalid Choice, please try again");

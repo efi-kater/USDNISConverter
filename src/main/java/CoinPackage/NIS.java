@@ -9,6 +9,11 @@ public class NIS extends Coin{
     }//gets the conversion ratio//
 
     @Override
+    public void setValue(double value) {
+
+    }
+
+    @Override
     public double calculate(double number) {
         double result = number*getValue();
         return result;

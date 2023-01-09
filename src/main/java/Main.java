@@ -20,7 +20,7 @@ public class Main {
         ArrayList<String>resultList = new ArrayList<>();
         Result resultObj = new Result(valueForResult,typeOfCoin);
         ArrayList<LocalDateTime> times = new ArrayList<>();
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM/dd/yyyy HH:mm:ss");
         try {
             int userSelection=0;
                 try {

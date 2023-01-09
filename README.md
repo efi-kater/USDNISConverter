@@ -1,3 +1,3 @@
 # USDNISConverter
-this a a simple currency converter
-USD to Shekels comes from api - the rest are done with a fixed value
+this a simple currency converter
+all values are calculated vs an actual live ratio via api

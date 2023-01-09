@@ -125,17 +125,23 @@ public class Main {
         if (userSelection == 1) {
             a = coinFactory.getCoinType(String.valueOf(CoinsTypes.USD));
             double liveRatio = usdLiveRatio();
-            a.setValue(liveRatio);
+            if (liveRatio!=0){
+                a.setValue(liveRatio);
+            }
             return a;
         } else if (userSelection == 2) {
             a = coinFactory.getCoinType(String.valueOf(CoinsTypes.NIS));
             double liveRatio = nisLiveRatio();
-            a.setValue(liveRatio);
+            if (liveRatio!=0){
+                a.setValue(liveRatio);
+            }
             return a;
         } else if (userSelection == 3) {
             a = coinFactory.getCoinType(String.valueOf(CoinsTypes.EUR));
             double liveRatio = eurLiveRatio();
-            a.setValue(liveRatio);
+            if (liveRatio!=0){
+                a.setValue(liveRatio);
+            }
             return a;
         } else {
             System.out.println("Invalid Choice, please try again");
@@ -251,5 +257,5 @@ public class Main {
 
         }
         return newValue;
-    }// get the USD to shekel ratio and returns it//
+    }// get the EUR to shekel ratio and returns it//
 }

@@ -8,6 +8,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Main {
     public static void main(String[] args) throws Exception {
         System.out.println("Welcome to currency converter");
@@ -16,15 +19,16 @@ public class Main {
         double valueForResult=0;
         ArrayList<String>resultList = new ArrayList<>();
         Result resultObj = new Result(valueForResult,typeOfCoin);
-
+        ArrayList<LocalDateTime> times = new ArrayList<>();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
         try {
-            int userSelection;
-            try {
-                userSelection = converterSelection();
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid Choice, please try again");
-                userSelection = converterSelection();
-            }
+            int userSelection=0;
+                try {
+                    userSelection = converterSelection();
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid Choice, please try again");
+                    userSelection = converterSelection();
+                }
             Coin a = CalcType(userSelection);
             int status = 0;
             while (status == 0) {
@@ -39,6 +43,7 @@ public class Main {
                     double result = a.calculate(amount);
                     System.out.println(result);
                     results.add(result);
+                    times.add(getActionTime());
                     typeOfCoin=resultObj.mergeToString(result,coinType(a));
                     resultList.add((typeOfCoin));
                     String selectDoOver = doAgain();
@@ -47,16 +52,39 @@ public class Main {
                         selectDoOver = doAgain();
                     }
                     if (selectDoOver.equalsIgnoreCase("y")) {
-                        userSelection = converterSelection();
+                        userSelection=0;
+                            try {
+                                userSelection = converterSelection();
+                            } catch (InputMismatchException e) {
+                                System.out.println("Invalid Choice, please try again");
+                                userSelection = converterSelection();
+                            }
                         a = CalcType(userSelection);
                     } else if (selectDoOver.equalsIgnoreCase("n")) {
                         System.out.println("Thanks for using our currency converter");
                         System.out.println(results);
                         System.out.println(resultList);
                         for (int i = 0; i < results.size(); i++) {
-                            writeToFile("Results.txt", "Result " + (i + 1) + ": ");
-                            writeToFile("Results.txt", resultList.get(i));
-                            writeToFile("Results.txt", System.lineSeparator());
+                            if (i==0){
+                                writeToFile("Results.txt", System.lineSeparator());
+                                writeToFile("Results.txt", "Session's Results End at: "+ dtf.format(getActionTime()));
+                                writeToFile("Results.txt", System.lineSeparator());
+                                writeToFile("Results.txt", "There were "+ results.size() + " conversions made");
+                                writeToFile("Results.txt", System.lineSeparator());
+                                writeToFile("Results.txt", "Result " + (i + 1) + ": ");
+                                writeToFile("Results.txt", resultList.get(i));
+                                writeToFile("Results.txt", " ");
+                                writeToFile("Results.txt", dtf.format(times.get(i)));
+                                writeToFile("Results.txt", System.lineSeparator());
+                            } else {
+                                writeToFile("Results.txt", System.lineSeparator());
+                                writeToFile("Results.txt", "Result " + (i + 1) + ": ");
+                                writeToFile("Results.txt", resultList.get(i));
+                                writeToFile("Results.txt", " ");
+                                writeToFile("Results.txt", dtf.format(times.get(i)));
+                                writeToFile("Results.txt", System.lineSeparator());
+                            }
+
                         }
                         status = 1;
 
@@ -129,14 +157,14 @@ public class Main {
 
     }//gets the desired file name and content and creates/appends to existing file//
 
-    public static String coinType(Coin coin) {
+    public static String coinType(Coin coin) throws IOException {
         String typeOfCoin="";
-        if (coin.getValue()==3.52){
+        if (coin.getValue()==usdLiveRatio()){
             typeOfCoin = " USD to NIS";
         } else if (coin.getValue()==0.28) {
             typeOfCoin = " NIS to USD";
         } else if (coin.getValue()==4.23) {
-            typeOfCoin= "EUR to NIS";
+            typeOfCoin= " EUR to NIS";
         }
         return typeOfCoin;
     }
@@ -162,5 +190,10 @@ public class Main {
 
         }
         return newValue;
+    }
+
+    public static LocalDateTime getActionTime(){
+        LocalDateTime now = LocalDateTime.now();
+        return now;
     }
 }

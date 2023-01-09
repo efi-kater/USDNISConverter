@@ -2,11 +2,15 @@ package CoinPackage;
 
 
 public class USD extends Coin {
-    private final double value = 3.52;
+    private double value = 3.52;
     @Override
     public double getValue() {
         return this.value;
     }//gets the conversion ratio//
+
+    public void setValue(double value) {
+        this.value = value;
+    }
 
     @Override
     public double calculate(double number) {

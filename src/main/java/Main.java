@@ -167,7 +167,7 @@ public class Main {
             typeOfCoin= " EUR to NIS";
         }
         return typeOfCoin;
-    }
+    } // gets coin type and return a string for the results file//
 
     public static double usdLiveRatio() throws IOException {
         //https://api.freecurrencyapi.com/v1/latest?apikey=N4fMpJz1St09zCtMcZ1qJBWVwe4zMWmipNCTCvqx
@@ -190,10 +190,10 @@ public class Main {
 
         }
         return newValue;
-    }
+    }// get the USD to shekel ratio and returns it//
 
     public static LocalDateTime getActionTime(){
         LocalDateTime now = LocalDateTime.now();
         return now;
-    }
+    } //get current time//
 }

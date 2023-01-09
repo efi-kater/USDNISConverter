@@ -25,16 +25,17 @@ public class Main {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM/dd/yyyy HH:mm:ss");
         try {
             int userSelection=0;
+            while (userSelection!=1&&userSelection!=2&&userSelection!=3) {
                 try {
                     userSelection = converterSelection();
                 } catch (InputMismatchException e) {
                     System.out.println("Invalid Choice, please try again");
-                    userSelection = converterSelection();
                 }
+            }
             Coin a = CalcType(userSelection);
             int status = 0;
             while (status == 0) {
-                double amount;
+                double amount=0;
                 if (a != null) {
                     try {
                         amount = getConvertAmount();
@@ -55,12 +56,13 @@ public class Main {
                     }
                     if (selectDoOver.equalsIgnoreCase("y")) {
                         userSelection=0;
+                        while (userSelection!=1&&userSelection!=2&&userSelection!=3) {
                             try {
                                 userSelection = converterSelection();
                             } catch (InputMismatchException e) {
                                 System.out.println("Invalid Choice, please try again");
-                                userSelection = converterSelection();
                             }
+                        }
                         a = CalcType(userSelection);
                     } else if (selectDoOver.equalsIgnoreCase("n")) {
                         System.out.println("Thanks for using our currency converter");

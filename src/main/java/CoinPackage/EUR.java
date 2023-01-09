@@ -1,7 +1,7 @@
 package CoinPackage;
 
 public class EUR extends Coin{
-    private final double value = 4.23;
+    private double value = 4.23;
     @Override
     public double getValue() {
         return this.value;
@@ -9,7 +9,7 @@ public class EUR extends Coin{
 
     @Override
     public void setValue(double value) {
-
+        this.value=value;
     }
 
     @Override

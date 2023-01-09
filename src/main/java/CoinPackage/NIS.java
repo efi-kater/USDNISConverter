@@ -2,7 +2,7 @@ package CoinPackage;
 
 
 public class NIS extends Coin{
-    private final double value = 0.28;
+    private double value = 0.28;
     @Override
     public double getValue() {
         return this.value;
@@ -10,7 +10,7 @@ public class NIS extends Coin{
 
     @Override
     public void setValue(double value) {
-
+        this.value=value;
     }
 
     @Override

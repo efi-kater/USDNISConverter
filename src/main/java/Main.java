@@ -4,8 +4,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import java.time.LocalDateTime;
@@ -97,6 +99,7 @@ public class Main {
         }
 
 
+
     }
 
     public static int converterSelection() throws Exception {
@@ -126,9 +129,13 @@ public class Main {
             return a;
         } else if (userSelection == 2) {
             a = coinFactory.getCoinType(String.valueOf(CoinsTypes.NIS));
+            double liveRatio = nisLiveRatio();
+            a.setValue(liveRatio);
             return a;
         } else if (userSelection == 3) {
             a = coinFactory.getCoinType(String.valueOf(CoinsTypes.EUR));
+            double liveRatio = eurLiveRatio();
+            a.setValue(liveRatio);
             return a;
         } else {
             System.out.println("Invalid Choice, please try again");
@@ -196,4 +203,53 @@ public class Main {
         LocalDateTime now = LocalDateTime.now();
         return now;
     } //get current time//
+
+    public static double nisLiveRatio() throws IOException {
+        //https://api.freecurrencyapi.com/v1/latest?apikey=N4fMpJz1St09zCtMcZ1qJBWVwe4zMWmipNCTCvqx
+        double newValue = 0;
+        URL url = new URL("https://api.freecurrencyapi.com/v1/latest?apikey=N4fMpJz1St09zCtMcZ1qJBWVwe4zMWmipNCTCvqx");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.connect();
+        int code = conn.getResponseCode();
+        if (code == 200) {
+            StringBuilder infoString = new StringBuilder();
+            Scanner scanner = new Scanner(url.openStream());
+
+            while (scanner.hasNext()) {
+                infoString.append(scanner.nextLine());
+            }
+            scanner.close();
+            int anchor = infoString.indexOf("ILS");
+            newValue = 1 / Double.parseDouble(infoString.substring(anchor + 5, anchor + 13));
+
+            DecimalFormat df = new DecimalFormat("#.######");
+            df.setRoundingMode(RoundingMode.CEILING);
+            newValue = Double.parseDouble((df.format(newValue)));
+        }
+        return newValue;
+    }// get the USD to shekel ratio calculate the reverse ratio and returns it//
+
+    public static double eurLiveRatio() throws IOException {
+        //https://api.freecurrencyapi.com/v1/latest?apikey=N4fMpJz1St09zCtMcZ1qJBWVwe4zMWmipNCTCvqx
+        double newValue=0;
+        URL url = new URL("https://api.freecurrencyapi.com/v1/latest?apikey=N4fMpJz1St09zCtMcZ1qJBWVwe4zMWmipNCTCvqx");
+        HttpURLConnection conn= (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.connect();
+        int code = conn.getResponseCode();
+        if (code==200) {
+            StringBuilder infoString = new StringBuilder();
+            Scanner scanner = new Scanner(url.openStream());
+
+            while (scanner.hasNext()) {
+                infoString.append(scanner.nextLine());
+            }
+            scanner.close();
+            int anchor = infoString.indexOf("EUR");
+            newValue = (1/Double.parseDouble(infoString.substring(anchor + 5, anchor + 13)))*usdLiveRatio();
+
+        }
+        return newValue;
+    }// get the USD to shekel ratio and returns it//
 }
